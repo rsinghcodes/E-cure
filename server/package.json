@@ -5,15 +5,16 @@
   "description": "",
   "main": "index",
   "scripts": {
-    "build": "webpack --config webpack.dev.js",
+    "build": "webpack --config webpack.development.js",
     "start": "node dist/index",
     "start:env": "node --require dotenv/config dist/index"
   },
   "keywords": [
-    "Typescript",
-    "Graphql",
-    "node",
-    "Javascript"
+    "webpack",
+    "graphql",
+    "typescript",
+    "apollo",
+    "apollo-server"
   ],
   "author": {
     "name": "Raghvendra Singh"
@@ -21,9 +22,17 @@
   "license": "ISC",
   "dependencies": {
     "apollo-server": "^3.5.0",
-    "graphql": "^16.1.0"
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^10.0.0",
+    "graphql": "^16.1.0",
+    "is-empty": "^1.2.0",
+    "mongoose": "^6.1.1",
+    "validator": "^13.7.0"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/is-empty": "^1.2.1",
+    "@types/validator": "^13.7.0",
     "@types/webpack-env": "^1.16.3",
     "clean-webpack-plugin": "^4.0.0",
     "ts-loader": "^9.2.6",

@@ -1,31 +1,28 @@
-const { ApolloServer, PubSub } = require("apollo-server");
-const mongoose = require("mongoose");
+import { ApolloServer } from "apollo-server";
+import mongoose from "mongoose";
 
-const typeDefs = require("./graphql/typeDefs");
-const resolvers = require("./graphql/resolvers");
-const { MONGODB } = require("./config.js");
-
-const pubsub = new PubSub();
-
-const PORT = process.env.PORT || 5000;
+import resolvers from "./graphql/resolvers";
+import typeDefs from "./graphql/typeDefs";
+import MONGODB from "./config";
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({ req }) => ({ req, pubsub }),
 });
 
-mongoose
-  .connect(MONGODB, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    return server.listen({ port: PORT });
-  })
-  .then((res) => {
-    console.log(`Server running at ${res.url}`);
-  })
-  .catch((err) => {
-    console.error(err);
-  });
+server.listen().then(async ({ url }: { url: string }) => {
+  console.log(`🚀  Server ready at ${url}`);
+  try {
+    await mongoose
+      .connect(MONGODB)
+      .then(() => console.log(`🗄️ Successfully connected to Database 🗄️`));
+  } catch (error) {
+    console.log(`🔥 An error ocurred when trying to connect with Database 🔥`);
+    throw error;
+  }
+});
+
+if (module.hot) {
+  module.hot.accept();
+  module.hot.dispose(() => server.stop());
+}

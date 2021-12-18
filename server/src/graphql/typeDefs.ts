@@ -1,50 +1,42 @@
-const { gql } = require("apollo-server");
+import { gql } from "apollo-server";
 
-module.exports = gql`
+export default gql`
   type Doctor {
     id: ID!
-    name: String!
+    fullname: String!
     email: String!
-    password: String!
+    token: String!
     reg_num: String!
     specialization: String!
     hospital_name: String!
     phone: String!
     age: String!
+    gender: String!
     address: String!
-    mon: Boolean!
-    tues: Boolean!
-    wed: Boolean!
-    thrus: Boolean!
-    fri: Boolean!
-    sat: Boolean!
-    sun: Boolean!
+    createdAt: String!
+    updatedAt: String!
   }
-  type Patient {
-    id: ID!
-    name: String!
+
+  input DoctorRegisterInput {
+    fullname: String!
     email: String!
     password: String!
+    confirmPassword: String!
+    reg_num: String!
+    specialization: String!
+    hospital_name: String!
     phone: String!
     age: String!
     gender: String!
+    address: String!
   }
-  type Appointment {
-    id: ID!
-    doctor_name: String!
-    patient_name: String!
-    appointmentno: String!
-    status: String!
-    reason_for_appoint: String!
-    date: String!
-    day: String!
-  }
-  type Image {
-    filename: String!
-    mimetype: String!
-    encoding: String!
-  }
+
   type Query {
-    testMessage: String!
+    getDoctors: [Doctor]
+    getSpecialization(specialization: String!): [Doctor]
+  }
+  type Mutation {
+    registerDoctor(doctorRegisterInput: DoctorRegisterInput): Doctor!
+    deleteDoctor(doctorId: ID!): String!
   }
 `;
