@@ -1,74 +1,57 @@
 import { UserInputError } from "apollo-server";
 import bcrypt from "bcryptjs";
 
-import Doctor, { DoctorTypes } from "../../models/Doctor";
+import Patient, { PatientTypes } from "../../models/Patient";
 import generateToken from "../../middleware/generateToken";
 import {
-  ValidateDoctorRegisterInput,
+  ValidatePatientRegisterInput,
   validateLoginInput,
 } from "../../validation/validators";
 
 export default {
   Query: {
-    getDoctors: async () => {
+    getPatients: async () => {
       try {
-        const doctors = await Doctor.find().sort({ createdAt: -1 });
-        return doctors;
-      } catch (err: any) {
-        throw new Error(err);
-      }
-    },
-    getSpecialization: async (
-      _: null,
-      { specialization }: { specialization: string }
-    ) => {
-      try {
-        const doctors = await Doctor.find({ specialization });
-        return doctors;
+        const patients = await Patient.find().sort({ createdAt: -1 });
+        return patients;
       } catch (err: any) {
         throw new Error(err);
       }
     },
   },
   Mutation: {
-    registerDoctor: async (
+    registerPatient: async (
       _: null,
       {
-        doctorRegisterInput: {
+        patientRegisterInput: {
           fullname,
           email,
           password,
           confirmPassword,
           reg_num,
-          specialization,
-          hospital_name,
           phone,
           age,
           gender,
-          address,
         },
-      }: { doctorRegisterInput: DoctorTypes }
+      }: { patientRegisterInput: PatientTypes }
     ) => {
-      const { isValid, errors } = ValidateDoctorRegisterInput(
+      const { isValid, errors } = ValidatePatientRegisterInput(
         fullname,
         email,
         password,
         confirmPassword,
         reg_num,
-        specialization,
-        hospital_name,
         phone,
         age,
-        gender,
-        address
+        gender
       );
       if (!isValid) {
         throw new UserInputError("Errors", { errors });
       }
 
-      // Make sure doctor email doesn't already exist
-      const doctorEmail = await Doctor.findOne({ email });
-      if (doctorEmail) {
+      // Make sure patient's email doesn't already exist
+      const patientEmail = await Patient.findOne({ email });
+      if (patientEmail) {
         throw new UserInputError("Email is taken", {
           errors: {
             email: "This Email is taken",
@@ -79,20 +62,17 @@ export default {
       // hash password
       password = await bcrypt.hash(password, 12);
 
-      const newDoctor = new Doctor({
+      const newPatient = new Patient({
         fullname,
         email,
         password,
         reg_num,
-        specialization,
-        hospital_name,
         phone,
         age,
         gender,
-        address,
       });
 
-      const res = await newDoctor.save();
+      const res = await newPatient.save();
 
       const token = generateToken(res);
 
@@ -103,21 +83,21 @@ export default {
       };
     },
 
-    deleteDoctor: async (_: null, { doctorId }: { doctorId: number }) => {
-      const doctor = await Doctor.findById(doctorId);
+    deletePatient: async (_: null, { patientId }: { patientId: number }) => {
+      const patient = await Patient.findById(patientId);
       try {
-        if (doctor) {
-          await doctor.delete();
-          return "Doctor data deleted successfully";
+        if (patient) {
+          await patient.delete();
+          return "Patient data deleted successfully";
         } else {
-          throw new Error("Doctor not found");
+          throw new Error("Patient not found");
         }
       } catch (err: any) {
         throw new Error(err);
       }
     },
 
-    loginDoctor: async (
+    loginPatient: async (
       _: null,
       { email, password }: { email: string; password: string }
     ) => {
@@ -126,14 +106,14 @@ export default {
         throw new UserInputError("Errors", { errors });
       }
 
-      const doctor = await Doctor.findOne({ email });
+      const patient = await Patient.findOne({ email });
 
-      if (!doctor) {
+      if (!patient) {
         errors.email = "Email not found";
         throw new UserInputError("Email not found", { errors });
       }
 
-      const match = await bcrypt.compare(password, doctor.password);
+      const match = await bcrypt.compare(password, patient.password);
       if (!match) {
         errors.password = "Password is invalid!";
         throw new UserInputError("Password is invalid!", {
@@ -141,11 +121,11 @@ export default {
         });
       }
 
-      const token = generateToken(doctor);
+      const token = generateToken(patient);
 
       return {
-        ...doctor._doc,
-        id: doctor._id,
+        ...patient._doc,
+        id: patient._id,
         token,
       };
     },

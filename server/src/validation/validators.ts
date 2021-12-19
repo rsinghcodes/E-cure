@@ -1,6 +1,27 @@
 import Validator from "validator";
 import isEmpty from "is-empty";
 import { DoctorTypes } from "../models/Doctor";
+import { PatientTypes } from "../models/Patient";
+
+export const validateLoginInput = (email: string, password: string) => {
+  let errors = <DoctorTypes | PatientTypes>{};
+  email = !isEmpty(email) ? email : "";
+  password = !isEmpty(password) ? password : ""; // Email checks
+
+  if (Validator.isEmpty(email)) {
+    errors.email = "Email field is required";
+  } else if (!Validator.isEmail(email)) {
+    errors.email = "Email is invalid";
+  }
+
+  if (Validator.isEmpty(password)) {
+    errors.password = "Password field is required";
+  }
+  return {
+    errors,
+    isValid: isEmpty(errors),
+  };
+};
 
 export const ValidateDoctorRegisterInput = (
   fullname: string,
@@ -42,6 +63,60 @@ export const ValidateDoctorRegisterInput = (
   }
   if (Validator.isEmpty(hospital_name)) {
     errors.hospital_name = "Hospital Name field is required";
+  }
+  if (Validator.isEmpty(phone)) {
+    errors.phone = "Contact Number field is required";
+  } else if (!Validator.isMobilePhone(phone, ["en-IN"])) {
+    errors.phone = "Contact Number is invalid";
+  }
+  if (Validator.isEmpty(email)) {
+    errors.email = "Email field is required";
+  } else if (!Validator.isEmail(email)) {
+    errors.email = "Email is invalid";
+  }
+  if (Validator.isEmpty(password)) {
+    errors.password = "Password field is required";
+  }
+  if (Validator.isEmpty(confirmPassword)) {
+    errors.confirmPassword = "Confirm password field is required";
+  }
+  if (!Validator.isLength(password, { min: 6, max: 20 })) {
+    errors.password = "Password must be at least 6 characters";
+  }
+  if (!Validator.equals(password, confirmPassword)) {
+    errors.confirmPassword = "Passwords must match";
+  }
+  return {
+    errors,
+    isValid: isEmpty(errors),
+  };
+};
+
+export const ValidatePatientRegisterInput = (
+  fullname: string,
+  email: string,
+  password: string,
+  confirmPassword: string,
+  reg_num: string,
+  phone: string,
+  age: string,
+  gender: string
+) => {
+  const errors = <PatientTypes>{};
+  fullname = !isEmpty(fullname) ? fullname : "";
+  email = !isEmpty(email) ? email : "";
+  password = !isEmpty(password) ? password : "";
+  confirmPassword = !isEmpty(confirmPassword) ? confirmPassword : "";
+  reg_num = !isEmpty(reg_num) ? reg_num : "";
+  phone = !isEmpty(phone) ? phone : "";
+  age = !isEmpty(age) ? age : "";
+  gender = !isEmpty(gender) ? gender : "";
+
+  if (Validator.isEmpty(fullname)) {
+    errors.fullname = "Name field is required";
+  }
+  if (Validator.isEmpty(reg_num)) {
+    errors.reg_num = "Registration Number field is required";
   }
   if (Validator.isEmpty(phone)) {
     errors.phone = "Contact Number field is required";
