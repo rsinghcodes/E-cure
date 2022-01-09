@@ -5,7 +5,7 @@
 ## 🚧 Technology Stack
 
 - **Server Enviornment** - NodeJS
-- **For APIs** - GraphQL in conjunction with Apollo
+- **Backend** - ExpressJS
 - **Frontend** - ReactJS, Material UI
 - **Programming Language** - TypeScript
 - **Database** - MongoDB in conjunction with Mongoose
@@ -39,7 +39,7 @@ SECRET_KEY=...
 npm install
 ```
 
-**Step :five::** To build with Webpack’s production configurations.
+**Step :five::** Start build with Webpack’s configurations.
 
 ```
 npm run build
@@ -48,7 +48,11 @@ npm run build
 **Step :six::** Now to start server, open a new Terminal and run the compiled code.
 
 ```
-npm start
+cd server
+```
+
+```
+npm run dev
 ```
 
 **Server started at [http://localhost:5000](http://localhost:5000).**

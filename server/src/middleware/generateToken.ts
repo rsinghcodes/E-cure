@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 import { DoctorTypes } from "../models/Doctor";
 import { PatientTypes } from "../models/Patient";
-import SECRET_KEY from "../config";
+import { SECRET_KEY } from "../config";
 
 const generateToken = (user: DoctorTypes | PatientTypes) => {
   return jwt.sign(
@@ -12,7 +12,7 @@ const generateToken = (user: DoctorTypes | PatientTypes) => {
       fullname: user.fullname,
       reg_num: user.reg_num,
     },
-    SECRET_KEY,
+    SECRET_KEY!,
     { expiresIn: "1h" }
   );
 };

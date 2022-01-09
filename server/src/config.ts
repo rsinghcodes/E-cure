@@ -1,6 +1,6 @@
-require("dotenv").config();
+import dotenv from "dotenv";
 
-export default {
-  MONGODB: process.env.MONGODB,
-  SECRET_KEY: process.env.SECRET_KEY,
-};
+dotenv.config();
+
+export const MONGODB = process.env.MONGODB;
+export const SECRET_KEY = process.env.SECRET_KEY;

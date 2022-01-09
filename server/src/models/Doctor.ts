@@ -13,22 +13,21 @@ export interface DoctorTypes extends Document {
   age: string;
   gender: string;
   address: string;
+  createdAt: string;
 }
 
-const doctorSchema = new Schema(
-  {
-    fullname: String,
-    email: String,
-    password: String,
-    reg_num: String,
-    specialization: String,
-    hospital_name: String,
-    phone: String,
-    age: String,
-    gender: String,
-    address: String,
-  },
-  { timestamps: true }
-);
+const doctorSchema = new Schema({
+  fullname: { type: String, required: true },
+  email: { type: String, required: true },
+  password: { type: String, required: true },
+  reg_num: { type: String, required: true },
+  specialization: { type: String, required: true },
+  hospital_name: { type: String, required: true },
+  phone: { type: String, required: true },
+  age: { type: String, required: true },
+  gender: { type: String, required: true },
+  address: { type: String, required: true },
+  createdAt: { type: String, required: true },
+});
 
 export default model<DoctorTypes>("Doctor", doctorSchema);

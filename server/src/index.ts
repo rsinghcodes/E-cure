@@ -1,28 +1,26 @@
-import { ApolloServer } from "apollo-server";
-import mongoose from "mongoose";
+import express, { Application, Request, Response } from "express";
+import logger from "morgan";
+import http from "http";
 
-import resolvers from "./graphql/resolvers";
-import typeDefs from "./graphql/typeDefs";
-import MONGODB from "./config";
+import connect from "./database/connect";
+import { MONGODB } from "./config";
 
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
+const app: Application = express();
+const PORT: string | number = process.env.PORT || 4000;
+const server = http.createServer(app);
+
+app.use(logger("dev"));
+
+app.get("/", (req: Request, res: Response) => {
+  res.send("🚀 Server running successfully...");
 });
 
-server.listen().then(async ({ url }: { url: string }) => {
-  console.log(`🚀  Server ready at ${url}`);
-  try {
-    await mongoose
-      .connect(MONGODB)
-      .then(() => console.log(`🗄️ Successfully connected to Database 🗄️`));
-  } catch (error) {
-    console.log(`🔥 An error ocurred when trying to connect with Database 🔥`);
-    throw error;
-  }
+server.listen(PORT, async () => {
+  console.log(`🚀  Server ready at ${PORT}`);
+  await connect({ db: MONGODB! });
 });
 
 if (module.hot) {
   module.hot.accept();
-  module.hot.dispose(() => server.stop());
+  module.hot.dispose(() => server.close());
 }
