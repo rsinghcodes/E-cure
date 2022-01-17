@@ -1,12 +1,13 @@
 import Validator from "validator";
 import isEmpty from "is-empty";
-import { DoctorTypes } from "../models/Doctor";
-import { PatientTypes } from "../models/Patient";
+import { DoctorTypes } from "../models/Doctor/Doctor.interface";
+import { PatientTypes } from "../models/Patient/Patient.interface";
+import { AdminTypes } from "../models/Admin/Admin.interface";
 
 export const validateLoginInput = (email: string, password: string) => {
-  let errors = <DoctorTypes | PatientTypes>{};
+  let errors = <DoctorTypes | PatientTypes | AdminTypes>{};
   email = !isEmpty(email) ? email : "";
-  password = !isEmpty(password) ? password : ""; // Email checks
+  password = !isEmpty(password) ? password : "";
 
   if (Validator.isEmpty(email)) {
     errors.email = "Email field is required";
@@ -23,67 +24,59 @@ export const validateLoginInput = (email: string, password: string) => {
   };
 };
 
-export const ValidateDoctorRegisterInput = (
-  fullname: string,
-  email: string,
-  password: string,
-  confirmPassword: string,
-  reg_num: string,
-  specialization: string,
-  hospital_name: string,
-  phone: string,
-  age: string,
-  gender: string,
-  address: string
-) => {
+export const ValidateDoctorRegisterInput = (data: DoctorTypes) => {
   const errors = <DoctorTypes>{};
-  fullname = !isEmpty(fullname) ? fullname : "";
-  email = !isEmpty(email) ? email : "";
-  password = !isEmpty(password) ? password : "";
-  confirmPassword = !isEmpty(confirmPassword) ? confirmPassword : "";
-  reg_num = !isEmpty(reg_num) ? reg_num : "";
-  specialization = !isEmpty(specialization) ? specialization : "";
-  hospital_name = !isEmpty(hospital_name) ? hospital_name : "";
-  phone = !isEmpty(phone) ? phone : "";
-  age = !isEmpty(age) ? age : "";
-  gender = !isEmpty(gender) ? gender : "";
-  address = !isEmpty(address) ? address : "";
+  data.fullname = !isEmpty(data.fullname) ? data.fullname : "";
+  data.email = !isEmpty(data.email) ? data.email : "";
+  data.password = !isEmpty(data.password) ? data.password : "";
+  data.confirmPassword = !isEmpty(data.confirmPassword)
+    ? data.confirmPassword
+    : "";
+  data.reg_num = !isEmpty(data.reg_num) ? data.reg_num : "";
+  data.specialization = !isEmpty(data.specialization)
+    ? data.specialization
+    : "";
+  data.hospital_name = !isEmpty(data.hospital_name) ? data.hospital_name : "";
+  data.phone = !isEmpty(data.phone) ? data.phone : "";
+  data.age = !isEmpty(data.age) ? data.age : "";
+  data.gender = !isEmpty(data.gender) ? data.gender : "";
+  data.address = !isEmpty(data.address) ? data.address : "";
 
-  if (Validator.isEmpty(fullname)) {
+  if (Validator.isEmpty(data.fullname)) {
     errors.fullname = "Name field is required";
   }
-  if (Validator.isEmpty(address)) {
+  if (Validator.isEmpty(data.address)) {
     errors.address = "Address field is required";
   }
-  if (Validator.isEmpty(specialization)) {
-    errors.specialization = "Specialisation field is required";
+  if (Validator.isEmpty(data.specialization)) {
+    errors.specialization = "Specialization field is required";
   }
-  if (Validator.isEmpty(reg_num)) {
+  if (Validator.isEmpty(data.reg_num)) {
     errors.reg_num = "Registration Number field is required";
   }
-  if (Validator.isEmpty(hospital_name)) {
+  if (Validator.isEmpty(data.hospital_name)) {
     errors.hospital_name = "Hospital Name field is required";
   }
-  if (Validator.isEmpty(phone)) {
+  if (Validator.isEmpty(data.phone)) {
     errors.phone = "Contact Number field is required";
-  } else if (!Validator.isMobilePhone(phone, ["en-IN"])) {
+  } else if (!Validator.isMobilePhone(data.phone, ["en-IN"])) {
     errors.phone = "Contact Number is invalid";
   }
-  if (Validator.isEmpty(email)) {
+  if (Validator.isEmpty(data.email)) {
     errors.email = "Email field is required";
-  } else if (!Validator.isEmail(email)) {
+  } else if (!Validator.isEmail(data.email)) {
     errors.email = "Email is invalid";
   }
-  if (Validator.isEmpty(password)) {
+  if (Validator.isEmpty(data.password)) {
     errors.password = "Password field is required";
   }
-  if (Validator.isEmpty(confirmPassword)) {
+  if (Validator.isEmpty(data.confirmPassword)) {
     errors.confirmPassword = "Confirm password field is required";
   }
-  if (!Validator.isLength(password, { min: 6, max: 20 })) {
+  if (!Validator.isLength(data.password, { min: 6, max: 20 })) {
     errors.password = "Password must be at least 6 characters";
   }
-  if (!Validator.equals(password, confirmPassword)) {
+  if (!Validator.equals(data.password, data.confirmPassword)) {
     errors.confirmPassword = "Passwords must match";
   }
   return {
@@ -92,52 +85,76 @@ export const ValidateDoctorRegisterInput = (
   };
 };
 
-export const ValidatePatientRegisterInput = (
-  fullname: string,
-  email: string,
-  password: string,
-  confirmPassword: string,
-  reg_num: string,
-  phone: string,
-  age: string,
-  gender: string
-) => {
+export const ValidatePatientRegisterInput = (data: PatientTypes) => {
   const errors = <PatientTypes>{};
-  fullname = !isEmpty(fullname) ? fullname : "";
-  email = !isEmpty(email) ? email : "";
-  password = !isEmpty(password) ? password : "";
-  confirmPassword = !isEmpty(confirmPassword) ? confirmPassword : "";
-  reg_num = !isEmpty(reg_num) ? reg_num : "";
-  phone = !isEmpty(phone) ? phone : "";
-  age = !isEmpty(age) ? age : "";
-  gender = !isEmpty(gender) ? gender : "";
+  data.fullname = !isEmpty(data.fullname) ? data.fullname : "";
+  data.email = !isEmpty(data.email) ? data.email : "";
+  data.password = !isEmpty(data.password) ? data.password : "";
+  data.confirmPassword = !isEmpty(data.confirmPassword)
+    ? data.confirmPassword
+    : "";
+  data.phone = !isEmpty(data.phone) ? data.phone : "";
+  data.age = !isEmpty(data.age) ? data.age : "";
+  data.gender = !isEmpty(data.gender) ? data.gender : "";
 
-  if (Validator.isEmpty(fullname)) {
+  if (Validator.isEmpty(data.fullname)) {
     errors.fullname = "Name field is required";
   }
-  if (Validator.isEmpty(reg_num)) {
-    errors.reg_num = "Registration Number field is required";
-  }
-  if (Validator.isEmpty(phone)) {
+  if (Validator.isEmpty(data.phone)) {
     errors.phone = "Contact Number field is required";
-  } else if (!Validator.isMobilePhone(phone, ["en-IN"])) {
-    errors.phone = "Contact Number is invalid";
+  } else if (!Validator.isMobilePhone(data.phone, ["en-IN"])) {
+    errors.phone = "Please enter valid phone number";
   }
-  if (Validator.isEmpty(email)) {
+  if (Validator.isEmpty(data.email)) {
     errors.email = "Email field is required";
-  } else if (!Validator.isEmail(email)) {
+  } else if (!Validator.isEmail(data.email)) {
     errors.email = "Email is invalid";
   }
-  if (Validator.isEmpty(password)) {
+  if (Validator.isEmpty(data.password)) {
     errors.password = "Password field is required";
   }
-  if (Validator.isEmpty(confirmPassword)) {
+  if (Validator.isEmpty(data.confirmPassword)) {
     errors.confirmPassword = "Confirm password field is required";
   }
-  if (!Validator.isLength(password, { min: 6, max: 20 })) {
+  if (!Validator.isLength(data.password, { min: 6, max: 20 })) {
     errors.password = "Password must be at least 6 characters";
   }
-  if (!Validator.equals(password, confirmPassword)) {
+  if (!Validator.equals(data.password, data.confirmPassword)) {
+    errors.confirmPassword = "Passwords must match";
+  }
+  return {
+    errors,
+    isValid: isEmpty(errors),
+  };
+};
+
+export const ValidateAdminRegisterInput = (data: AdminTypes) => {
+  const errors = <AdminTypes>{};
+  data.fullname = !isEmpty(data.fullname) ? data.fullname : "";
+  data.email = !isEmpty(data.email) ? data.email : "";
+  data.password = !isEmpty(data.password) ? data.password : "";
+  data.confirmPassword = !isEmpty(data.confirmPassword)
+    ? data.confirmPassword
+    : "";
+
+  if (Validator.isEmpty(data.fullname)) {
+    errors.fullname = "Name field is required";
+  }
+  if (Validator.isEmpty(data.email)) {
+    errors.email = "Email field is required";
+  } else if (!Validator.isEmail(data.email)) {
+    errors.email = "Email is invalid";
+  }
+  if (Validator.isEmpty(data.password)) {
+    errors.password = "Password field is required";
+  }
+  if (Validator.isEmpty(data.confirmPassword)) {
+    errors.confirmPassword = "Confirm password field is required";
+  }
+  if (!Validator.isLength(data.password, { min: 6, max: 20 })) {
+    errors.password = "Password must be at least 6 characters";
+  }
+  if (!Validator.equals(data.password, data.confirmPassword)) {
     errors.confirmPassword = "Passwords must match";
   }
   return {

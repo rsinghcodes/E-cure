@@ -55,4 +55,4 @@ cd server
 npm run dev
 ```
 
-**Server started at [http://localhost:5000](http://localhost:5000).**
+**Server started at [http://localhost:4000](http://localhost:4000).**

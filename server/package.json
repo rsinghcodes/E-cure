@@ -11,16 +11,17 @@
   },
   "keywords": [
     "webpack",
-    "graphql",
+    "expressjs",
     "typescript",
-    "apollo",
-    "apollo-server"
+    "mongoose",
+    "mongodb"
   ],
   "author": {
     "name": "Raghvendra Singh"
   },
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.1",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",

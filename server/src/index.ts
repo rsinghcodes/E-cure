@@ -1,15 +1,22 @@
 import express, { Application, Request, Response } from "express";
+import cors from "cors";
+import { json, urlencoded } from "body-parser";
 import logger from "morgan";
 import http from "http";
 
 import connect from "./database/connect";
+import admin from "./routes/admin";
 import { MONGODB } from "./config";
 
 const app: Application = express();
 const PORT: string | number = process.env.PORT || 4000;
 const server = http.createServer(app);
 
+app.use(cors());
 app.use(logger("dev"));
+app.use(json());
+app.use(urlencoded({ extended: false }));
+app.use("/apis/admin", admin);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("🚀 Server running successfully...");
