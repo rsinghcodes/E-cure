@@ -1,8 +1,9 @@
 import Validator from "validator";
 import isEmpty from "is-empty";
-import { DoctorTypes } from "../models/Doctor/Doctor.interface";
-import { PatientTypes } from "../models/Patient/Patient.interface";
-import { AdminTypes } from "../models/Admin/Admin.interface";
+
+import DoctorTypes from "../models/Doctor/Doctor.interface";
+import PatientTypes from "../models/Patient/Patient.interface";
+import AdminTypes from "../models/Admin/Admin.interface";
 
 export const validateLoginInput = (email: string, password: string) => {
   let errors = <DoctorTypes | PatientTypes | AdminTypes>{};
@@ -32,7 +33,7 @@ export const ValidateDoctorRegisterInput = (data: DoctorTypes) => {
   data.confirmPassword = !isEmpty(data.confirmPassword)
     ? data.confirmPassword
     : "";
-  data.reg_num = !isEmpty(data.reg_num) ? data.reg_num : "";
+  // data.reg_num = !isEmpty(data.reg_num) ? data.reg_num : "";
   data.specialization = !isEmpty(data.specialization)
     ? data.specialization
     : "";
@@ -51,9 +52,9 @@ export const ValidateDoctorRegisterInput = (data: DoctorTypes) => {
   if (Validator.isEmpty(data.specialization)) {
     errors.specialization = "Specialization field is required";
   }
-  if (Validator.isEmpty(data.reg_num)) {
-    errors.reg_num = "Registration Number field is required";
-  }
+  // if (Validator.isEmpty(data.reg_num)) {
+  //   errors.reg_num = "Registration Number field is required";
+  // }
   if (Validator.isEmpty(data.hospital_name)) {
     errors.hospital_name = "Hospital Name field is required";
   }

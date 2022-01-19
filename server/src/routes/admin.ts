@@ -1,7 +1,13 @@
 import { NextFunction, Request, Response, Router } from "express";
+import uniqueRandom from "unique-random";
+
+import token from "../middleware/token";
 import Admin from "../models/Admin/Admin.model";
-import createToken from "../middleware/createToken";
-import { ValidateAdminRegisterInput } from "../validation/validators";
+import Doctor from "../models/Doctor/Doctor.model";
+import {
+  ValidateAdminRegisterInput,
+  ValidateDoctorRegisterInput,
+} from "../validation/validators";
 
 const router = Router();
 
@@ -33,7 +39,7 @@ router.post(
         role: "admin",
       });
 
-      const accessToken = createToken(user);
+      const accessToken = token.createToken(user);
 
       res.status(201).json({ accessToken });
     } catch (error: any) {
@@ -55,15 +61,17 @@ router.post(
       const user = await Admin.findOne({ email });
 
       if (!user) {
-        throw new Error("Unable to find user with that email address");
+        return res
+          .status(400)
+          .json({ email: "Unable to find user with that email address" });
       }
 
       if (await user.isValidPassword(password)) {
-        const accessToken = createToken(user);
+        const accessToken = token.createToken(user);
 
         res.status(200).json({ accessToken });
       } else {
-        throw new Error("Wrong credentials given");
+        res.status(400).json({ password: "Wrong credentials given" });
       }
     } catch (error: any) {
       next(new Error(error));
@@ -77,7 +85,64 @@ router.post(
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<Response | void> => {}
+  ): Promise<Response | void> => {
+    try {
+      const { errors, isValid } = ValidateDoctorRegisterInput(req.body);
+      if (!isValid) {
+        return res.status(400).json(errors);
+      }
+
+      const doctor = await Doctor.findOne({ email: req.body.email });
+
+      if (doctor) {
+        return res.status(400).json({ email: "Email already exists" });
+      }
+
+      const random = uniqueRandom(1000, 10000);
+
+      const {
+        fullname,
+        email,
+        password,
+        specialization,
+        hospital_name,
+        phone,
+        age,
+        gender,
+        address,
+      } = req.body;
+
+      const user = await Doctor.create({
+        fullname,
+        email,
+        password,
+        reg_num: random(),
+        specialization,
+        hospital_name,
+        phone,
+        age,
+        gender,
+        address,
+      });
+
+      res.status(201).send({ data: user });
+    } catch (error: any) {
+      next(new Error(error));
+    }
+  }
+);
+
+router.get(
+  "/get-doctors",
+  async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | void> => {
+    const doctors = await Doctor.find().select("-password").exec();
+
+    res.status(200).send({ data: doctors });
+  }
 );
 
 export default router;

@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 import bcrypt from "bcryptjs";
 
-import { AdminTypes } from "./Admin.interface";
+import AdminTypes from "./Admin.interface";
 
 const adminSchema = new Schema({
   fullname: { type: String, required: true },

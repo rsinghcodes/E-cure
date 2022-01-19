@@ -1,12 +1,5 @@
-import { Schema, Document, model } from "mongoose";
-
-interface ImageTypes extends Document {
-  doctor_id: number;
-  patient_id: number;
-  patient_name: string;
-  doctor_name: string;
-  img: string;
-}
+import { Schema, model } from "mongoose";
+import ImageTypes from "./Image.interface";
 
 const imageSchema = new Schema({
   doctor_id: {

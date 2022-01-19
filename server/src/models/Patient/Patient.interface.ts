@@ -1,6 +1,6 @@
 import { Document } from "mongoose";
 
-export interface PatientTypes extends Document {
+interface PatientTypes extends Document {
   fullname: string;
   email: string;
   password: string;
@@ -13,3 +13,5 @@ export interface PatientTypes extends Document {
 
   isValidPassword(password: string): Promise<Error | boolean>;
 }
+
+export default PatientTypes;

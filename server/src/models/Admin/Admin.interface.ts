@@ -1,6 +1,6 @@
 import { Document } from "mongoose";
 
-export interface AdminTypes extends Document {
+interface AdminTypes extends Document {
   fullname: string;
   email: string;
   password: string;
@@ -9,3 +9,5 @@ export interface AdminTypes extends Document {
 
   isValidPassword(password: string): Promise<Error | boolean>;
 }
+
+export default AdminTypes;

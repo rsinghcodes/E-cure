@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 import bcrypt from "bcryptjs";
 
-import { DoctorTypes } from "./Doctor.interface";
+import DoctorTypes from "./Doctor.interface";
 
 const doctorSchema = new Schema(
   {
