@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response, Router } from "express";
-import uniqueRandom from "unique-random";
 
 import token from "../middleware/token";
 import Admin from "../models/Admin/Admin.model";
 import Doctor from "../models/Doctor/Doctor.model";
+import Patient from "../models/Patient/Patient.model";
 import {
   ValidateAdminRegisterInput,
   ValidateDoctorRegisterInput,
@@ -98,8 +98,6 @@ router.post(
         return res.status(400).json({ email: "Email already exists" });
       }
 
-      const random = uniqueRandom(1000, 10000);
-
       const {
         fullname,
         email,
@@ -110,13 +108,14 @@ router.post(
         age,
         gender,
         address,
+        reg_num,
       } = req.body;
 
       const user = await Doctor.create({
         fullname,
         email,
         password,
-        reg_num: random(),
+        reg_num,
         specialization,
         hospital_name,
         phone,
@@ -142,6 +141,19 @@ router.get(
     const doctors = await Doctor.find().select("-password").exec();
 
     res.status(200).send({ data: doctors });
+  }
+);
+
+router.get(
+  "/get-patients",
+  async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | void> => {
+    const patients = await Patient.find().select("-password").exec();
+
+    res.status(200).send({ data: patients });
   }
 );
 

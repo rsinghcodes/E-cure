@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response, Router } from "express";
-import uniqueRandom from "unique-random";
 
 import token from "../middleware/token";
 import Patient from "../models/Patient/Patient.model";
@@ -26,8 +25,8 @@ router.post(
         return res.status(400).json({ email: "Email already exists" });
       }
 
-      const random = uniqueRandom(10000, 100000);
-      const { fullname, email, password, phone, age, gender } = req.body;
+      const { fullname, email, password, phone, age, gender, reg_num } =
+        req.body;
 
       const user = await Patient.create({
         fullname,
@@ -36,7 +35,7 @@ router.post(
         phone,
         age,
         gender,
-        reg_num: random(),
+        reg_num,
       });
 
       const accessToken = token.createToken(user);
