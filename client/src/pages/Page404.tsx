@@ -21,7 +21,7 @@ const RootStyle = styled(Page)(({ theme }) => ({
 
 export default function Page404() {
   return (
-    <RootStyle title="404 Page Not Found | Minimal-UI">
+    <RootStyle title="404 Page Not Found | E-Cure">
       <Container>
         <MotionContainer initial="initial" open>
           <Box sx={{ maxWidth: 480, margin: "auto", textAlign: "center" }}>
@@ -31,8 +31,8 @@ export default function Page404() {
               </Typography>
             </motion.div>
             <Typography sx={{ color: "text.secondary" }}>
-              Sorry, we couldn’t find the page you’re looking for. Perhaps
-              you’ve mistyped the URL? Be sure to check your spelling.
+              Sorry, we couldn't find the page you're looking for. Perhaps
+              you've mistyped the URL? Be sure to check your spelling.
             </Typography>
 
             <motion.div variants={varBounceIn}>

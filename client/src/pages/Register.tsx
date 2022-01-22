@@ -1,13 +1,13 @@
 import { Link as RouterLink } from "react-router-dom";
 // material
 import { styled } from "@mui/material/styles";
-import { Stack, Link, Container, Typography } from "@mui/material";
+import { Box, Link, Container, Typography } from "@mui/material";
 // layouts
 import AuthLayout from "../layouts/AuthLayout";
 // components
 import Page from "../components/Page";
 import { MHidden } from "../components/@material-extend";
-import { LoginForm } from "../components/authentication/login";
+import { RegisterForm } from "../components/authentication/register";
 
 // ----------------------------------------------------------------------
 
@@ -29,39 +29,55 @@ const ContentStyle = styled("div")(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function Login() {
+export default function Register() {
   return (
-    <RootStyle title="Login | E-Cure">
+    <RootStyle title="Register | E-Cure">
       <AuthLayout>
-        Don't have an account? &nbsp;
+        Already have an account? &nbsp;
         <Link
           underline="none"
           variant="subtitle2"
           component={RouterLink}
-          to="/register"
+          to="/login"
         >
-          Get started
+          Login
         </Link>
       </AuthLayout>
 
-      <Container maxWidth="sm">
+      <Container>
         <ContentStyle>
-          <Stack sx={{ mb: 5 }}>
+          <Box sx={{ mb: 5 }}>
             <Typography variant="h4" gutterBottom>
-              Sign in to E-Cure
+              Get started absolutely free.
             </Typography>
             <Typography sx={{ color: "text.secondary" }}>
-              Enter your details below.
+              Free forever. No credit card needed.
             </Typography>
-          </Stack>
+          </Box>
 
-          <LoginForm />
+          <RegisterForm />
+
+          <Typography
+            variant="body2"
+            align="center"
+            sx={{ color: "text.secondary", mt: 3 }}
+          >
+            By registering, I agree to E-Cure&nbsp;
+            <Link underline="always" sx={{ color: "text.primary" }}>
+              Terms of Service
+            </Link>
+            &nbsp;and&nbsp;
+            <Link underline="always" sx={{ color: "text.primary" }}>
+              Privacy Policy
+            </Link>
+            .
+          </Typography>
 
           <MHidden width="smUp">
-            <Typography variant="body2" align="center" sx={{ mt: 3 }}>
-              Don't have an account?&nbsp;
-              <Link variant="subtitle2" component={RouterLink} to="register">
-                Get started
+            <Typography variant="subtitle2" sx={{ mt: 3, textAlign: "center" }}>
+              Already have an account?&nbsp;
+              <Link to="/login" component={RouterLink}>
+                Login
               </Link>
             </Typography>
           </MHidden>

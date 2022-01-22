@@ -56,3 +56,28 @@ npm run dev
 ```
 
 **Server started at [http://localhost:4000](http://localhost:4000).**
+
+**Step :seven::** Open another new terminal, navigate to client directory.
+
+```
+cd client
+```
+
+**Step :eight::** Install the dependencies.
+
+```
+npm install
+```
+
+**Step :nine::** Now start Frontend application
+
+```
+npm start
+```
+
+Your app is ready to be run! ✨✨\
+**Open [http://localhost:3000](http://localhost:3000) to view it in the browser.**
+
+## Project Status
+
+Project work is under progress... and soon will be deployed on initial release.

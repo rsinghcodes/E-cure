@@ -1,11 +1,10 @@
-import PropTypes from "prop-types";
+import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 // material
 import { styled } from "@mui/material/styles";
 import { Typography } from "@mui/material";
 
 import { MHidden } from "../components/@material-extend";
-import React from "react";
 
 // ----------------------------------------------------------------------
 
@@ -27,15 +26,11 @@ const HeaderStyle = styled("header")(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-AuthLayout.propTypes = {
-  children: PropTypes.node,
-};
-
-export default function AuthLayout({
-  children,
-}: {
+interface AuthLayoutPropTypes {
   children: React.ReactNode;
-}) {
+}
+
+export default function AuthLayout({ children }: AuthLayoutPropTypes) {
   return (
     <HeaderStyle>
       <RouterLink to="/">E-Cure</RouterLink>

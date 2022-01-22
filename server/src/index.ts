@@ -7,6 +7,7 @@ import http from "http";
 import connect from "./database/connect";
 import admin from "./routes/admin";
 import patient from "./routes/patient";
+import doctor from "./routes/doctor";
 import { MONGODB } from "./config";
 
 const app: Application = express();
@@ -19,6 +20,7 @@ app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use("/api/admin", admin);
 app.use("/api/patient", patient);
+app.use("/api/doctor", doctor);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("🚀 Server running successfully...");

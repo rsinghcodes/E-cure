@@ -1,5 +1,4 @@
-import PropTypes from "prop-types";
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 // material
 import { CssBaseline } from "@mui/material";
 import {
@@ -16,11 +15,11 @@ import shadows, { customShadows } from "./shadows";
 
 // ----------------------------------------------------------------------
 
-ThemeConfig.propTypes = {
-  children: PropTypes.node,
-};
+interface ThemeConfigPropTypes {
+  children: React.ReactNode;
+}
 
-export default function ThemeConfig({ children }) {
+export default function ThemeConfig({ children }: ThemeConfigPropTypes) {
   const themeOptions = useMemo(
     () => ({
       palette,
