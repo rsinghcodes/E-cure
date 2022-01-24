@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { Icon } from "@iconify/react";
 import menu2Fill from "@iconify/icons-eva/menu-2-fill";
 // material
@@ -36,15 +35,17 @@ const ToolbarStyle = styled(Toolbar)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-DashboardNavbar.propTypes = {
-  onOpenSidebar: PropTypes.func,
-};
+interface DashboardNavbarPropTypes {
+  onOpenSidebar: () => void;
+}
 
-export default function DashboardNavbar({ onOpenSidebar }) {
+export default function DashboardNavbar({
+  onOpenSidebar,
+}: DashboardNavbarPropTypes) {
   return (
     <RootStyle>
       <ToolbarStyle>
-        <MHidden width="lgUp">
+        <MHidden width="Up" breakpoint="lg">
           <IconButton
             onClick={onOpenSidebar}
             sx={{ mr: 1, color: "text.primary" }}

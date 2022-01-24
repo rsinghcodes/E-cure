@@ -1,29 +1,24 @@
 import React, { ReactElement } from "react";
 // material
-import { useMediaQuery } from "@mui/material";
+import { Theme, useMediaQuery } from "@mui/material";
 
 // ----------------------------------------------------------------------
 
 interface MHiddenPropsTypes {
   children: React.ReactNode;
-  width:
-    | "xsDown"
-    | "smDown"
-    | "mdDown"
-    | "lgDown"
-    | "xlDown"
-    | "xsUp"
-    | "smUp"
-    | "mdUp"
-    | "lgUp"
-    | "xlUp";
+  width: "Down" | "Up";
+  breakpoint: "xs" | "sm" | "md" | "lg" | "xl";
 }
 
-const MHidden: React.FC<MHiddenPropsTypes> = ({ width, children }) => {
-  const breakpoint = width.substring(0, 2);
-
-  const hiddenUp = useMediaQuery((theme) => theme.breakpoints.up(breakpoint));
-  const hiddenDown = useMediaQuery((theme) =>
+const MHidden: React.FC<MHiddenPropsTypes> = ({
+  width,
+  breakpoint,
+  children,
+}) => {
+  const hiddenUp = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.up(breakpoint)
+  );
+  const hiddenDown = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down(breakpoint)
   );
 

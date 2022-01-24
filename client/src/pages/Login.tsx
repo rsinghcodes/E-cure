@@ -57,7 +57,7 @@ export default function Login() {
 
           <LoginForm />
 
-          <MHidden width="smUp">
+          <MHidden width="Up" breakpoint="sm">
             <Typography variant="body2" align="center" sx={{ mt: 3 }}>
               Don't have an account?&nbsp;
               <Link variant="subtitle2" component={RouterLink} to="register">

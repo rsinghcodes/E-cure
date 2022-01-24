@@ -105,6 +105,7 @@ export default function RegisterForm() {
             type="submit"
             variant="contained"
             loading={isSubmitting}
+            disableElevation
           >
             Register
           </LoadingButton>

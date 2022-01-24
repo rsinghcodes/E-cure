@@ -108,6 +108,7 @@ export default function LoginForm() {
           type="submit"
           variant="contained"
           loading={isSubmitting}
+          disableElevation
         >
           Login
         </LoadingButton>

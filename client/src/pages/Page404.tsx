@@ -48,6 +48,7 @@ export default function Page404() {
               size="large"
               variant="contained"
               component={RouterLink}
+              disableElevation
             >
               Go to Home
             </Button>

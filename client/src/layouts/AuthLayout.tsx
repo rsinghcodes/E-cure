@@ -35,11 +35,11 @@ export default function AuthLayout({ children }: AuthLayoutPropTypes) {
     <HeaderStyle>
       <RouterLink to="/">E-Cure</RouterLink>
 
-      <MHidden width="smDown">
+      <MHidden width="Down" breakpoint="sm">
         <Typography
           variant="body2"
           sx={{
-            mt: { md: -2 },
+            mt: { md: -1 },
           }}
         >
           {children}

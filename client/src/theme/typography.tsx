@@ -1,3 +1,5 @@
+// ----------------------------------------------------------------------
+
 function pxToRem(value: number) {
   return `${value / 16}rem`;
 }
@@ -94,13 +96,13 @@ const typography = {
     lineHeight: 1.5,
     fontSize: pxToRem(12),
     letterSpacing: 1.1,
-    textTransform: "uppercase",
+    // textTransform: uppercase,
   },
   button: {
     fontWeight: 700,
     lineHeight: 24 / 14,
     fontSize: pxToRem(14),
-    textTransform: "capitalize",
+    // textTransform: "capitalize",
   },
 };
 
