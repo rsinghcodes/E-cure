@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
-import { Box, Link, Drawer, Typography, Avatar } from '@mui/material';
+import { Box, Link, Drawer, Typography } from '@mui/material';
 // components
 import Scrollbar from '../../components/Scrollbar';
 import NavSection from '../../components/NavSection';
@@ -10,6 +10,8 @@ import { MHidden } from '../../components/@material-extend';
 //
 import sidebarConfig from './SidebarConfig';
 import account from '../../_mocks_/account';
+import { Icon } from '@iconify/react';
+import personFill from '@iconify/icons-eva/person-fill';
 
 // ----------------------------------------------------------------------
 
@@ -26,7 +28,7 @@ const AccountStyle = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   padding: theme.spacing(2, 2.5),
-  borderRadius: theme.shape.borderRadiusSm,
+  borderRadius: 12,
   backgroundColor: theme.palette.grey[200],
 }));
 
@@ -70,14 +72,14 @@ export default function DashboardSidebar({
       <Box sx={{ mb: 5, mx: 2.5 }}>
         <Link underline="none" component={RouterLink} to="#">
           <AccountStyle>
-            <Avatar src={account.photoURL} alt="photoURL" />
+            <Icon icon={personFill} width="30" />
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
                 {account.displayName}
               </Typography>
-              {/* <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                {account.role}
-              </Typography> */}
+              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                Role: Doctor
+              </Typography>
             </Box>
           </AccountStyle>
         </Link>

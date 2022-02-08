@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types';
+import { ForwardRefExoticComponent, RefAttributes, useState } from 'react';
 import { Icon, IconifyIcon } from '@iconify/react';
 import {
   NavLink as RouterLink,
   matchPath,
   useLocation,
+  NavLinkProps,
 } from 'react-router-dom';
 import arrowIosForwardFill from '@iconify/icons-eva/arrow-ios-forward-fill';
 import arrowIosDownwardFill from '@iconify/icons-eva/arrow-ios-downward-fill';
@@ -21,9 +21,18 @@ import {
 
 // ----------------------------------------------------------------------
 
+interface ListItemStyleProps {
+  onClick?: () => void;
+  component?: ForwardRefExoticComponent<
+    NavLinkProps & RefAttributes<HTMLAnchorElement>
+  >;
+  to?: string;
+  children: React.ReactNode;
+}
+
 const ListItemStyle = styled((props) => (
   <ListItemButton disableGutters {...props} />
-))(({ theme }) => ({
+))<ListItemStyleProps>(({ theme }) => ({
   ...theme.typography.body2,
   height: 48,
   position: 'relative',
@@ -59,8 +68,8 @@ interface ItemTypes {
   title: string;
   path: string;
   icon: IconifyIcon;
-  info: string;
-  children: [ItemTypes];
+  info?: string;
+  children?: [ItemTypes];
 }
 
 interface NavItemPropTypes {
@@ -172,11 +181,14 @@ function NavItem({ item, active }: NavItemPropTypes) {
   );
 }
 
-NavSection.propTypes = {
-  navConfig: PropTypes.array,
-};
+interface NavSectionPropTypes {
+  navConfig: [ItemTypes];
+}
 
-export default function NavSection({ navConfig, ...other }) {
+export default function NavSection({
+  navConfig,
+  ...other
+}: NavSectionPropTypes) {
   const { pathname } = useLocation();
   const match = (path: string) =>
     path ? !!matchPath({ path, end: false }, pathname) : false;

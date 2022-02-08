@@ -1,15 +1,14 @@
-import React, { useMemo } from "react";
+import React, { useMemo } from 'react';
 // material
-import { CssBaseline } from "@mui/material";
+import { CssBaseline } from '@mui/material';
 import {
   ThemeProvider,
   createTheme,
   StyledEngineProvider,
-} from "@mui/material/styles";
+} from '@mui/material/styles';
 
-import palette from "./palette";
-import typography from "./typography";
-import shape from "./shape";
+import palette from './palette';
+import typography from './typography';
 
 // ----------------------------------------------------------------------
 
@@ -21,7 +20,6 @@ export default function ThemeConfig({ children }: ThemeConfigPropTypes) {
   const themeOptions = useMemo(
     () => ({
       palette,
-      shape,
       typography,
     }),
     []
