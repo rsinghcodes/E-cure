@@ -1,7 +1,7 @@
-import * as Yup from "yup";
-import { useState } from "react";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { useFormik, Form, FormikProvider } from "formik";
+import * as Yup from 'yup';
+import { useState } from 'react';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { useFormik, Form, FormikProvider } from 'formik';
 // material
 import {
   Link,
@@ -11,9 +11,9 @@ import {
   IconButton,
   InputAdornment,
   FormControlLabel,
-} from "@mui/material";
-import { LoadingButton } from "@mui/lab";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+} from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 // ----------------------------------------------------------------------
 
@@ -23,20 +23,20 @@ export default function LoginForm() {
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string()
-      .email("Email must be a valid email address")
-      .required("Email is required"),
-    password: Yup.string().required("Password is required"),
+      .email('Email must be a valid email address')
+      .required('Email is required'),
+    password: Yup.string().required('Password is required'),
   });
 
   const formik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
       remember: true,
     },
     validationSchema: LoginSchema,
-    onSubmit: () => {
-      navigate("/dashboard", { replace: true });
+    onSubmit: (e) => {
+      navigate('/dashboard', { replace: true });
     },
   });
 
@@ -56,7 +56,7 @@ export default function LoginForm() {
             autoComplete="username"
             type="email"
             label="Email address"
-            {...getFieldProps("email")}
+            {...getFieldProps('email')}
             error={Boolean(touched.email && errors.email)}
             helperText={touched.email && errors.email}
           />
@@ -64,9 +64,9 @@ export default function LoginForm() {
           <TextField
             fullWidth
             autoComplete="current-password"
-            type={showPassword ? "text" : "password"}
+            type={showPassword ? 'text' : 'password'}
             label="Password"
-            {...getFieldProps("password")}
+            {...getFieldProps('password')}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -90,7 +90,7 @@ export default function LoginForm() {
           <FormControlLabel
             control={
               <Checkbox
-                {...getFieldProps("remember")}
+                {...getFieldProps('remember')}
                 checked={values.remember}
               />
             }
