@@ -1,16 +1,16 @@
 <h1 align="center">E-Cure</h1>
 
-<p align="center">E-cure is an online appointment system with doctors. A Web-Based solution through which patients can fix an online appointment with the Doctor when it is not necessary to meet in-person in view of COVID-19.</p>
+<p align="center">E-cure is an online appointment system with doctors. A Web-Based solution through which patients can fix an online appointment with the doctor when it is not necessary to meet in-person in view of COVID-19.</p>
 
 ## 🚧 Technology Stack
 
 - **Server Enviornment** - NodeJS
 - **Backend** - ExpressJS
-- **Frontend** - ReactJS, Material UI
-- **Programming Language** - TypeScript
+- **Frontend** - ReactJS, Redux, Material UI
+- **Programming Language** - TypeScript & JavaScript
 - **Database** - MongoDB in conjunction with Mongoose
 - **Cloud database service** - MongoDB Atlas
-- **Deployment** - Heroku (Backend) & Netlify (Frontend)
+- **Deployment** - Heroku
 
 ## ⬇️ Installation & Set Up
 
@@ -77,7 +77,3 @@ npm start
 
 Your app is ready to be run! ✨✨\
 **Open [http://localhost:3000](http://localhost:3000) to view it in the browser.**
-
-## Project Status
-
-Project work is under progress... and soon will be deployed on initial release.
