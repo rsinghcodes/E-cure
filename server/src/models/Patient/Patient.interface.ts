@@ -1,10 +1,9 @@
-import { Document } from "mongoose";
+import { Document } from 'mongoose';
 
 interface PatientTypes extends Document {
   fullname: string;
   email: string;
   password: string;
-  confirmPassword: string;
   phone: string;
   age: string;
   gender: string;

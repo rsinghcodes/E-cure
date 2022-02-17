@@ -1,5 +1,4 @@
-import { ForwardRefExoticComponent, RefAttributes } from 'react';
-import { Link as RouterLink, LinkProps } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
 import { Typography } from '@mui/material';
@@ -7,13 +6,6 @@ import { Typography } from '@mui/material';
 import { MHidden } from '../components/@material-extend';
 
 // ----------------------------------------------------------------------
-
-interface StyledLogoPropsType {
-  component: ForwardRefExoticComponent<
-    LinkProps & RefAttributes<HTMLAnchorElement>
-  >;
-  to?: string;
-}
 
 const HeaderStyle = styled('header')(({ theme }) => ({
   top: 0,
@@ -30,25 +22,21 @@ const HeaderStyle = styled('header')(({ theme }) => ({
   },
 }));
 
-const StyledLogo = styled(Typography)<StyledLogoPropsType>(({ theme }) => ({
+const StyledLogo = styled(Typography)(({ theme }) => ({
   textDecoration: 'none',
   color: theme.palette.grey[800],
 }));
 
 // ----------------------------------------------------------------------
 
-interface AuthLayoutPropTypes {
-  children: React.ReactNode;
-}
-
-export default function AuthLayout({ children }: AuthLayoutPropTypes) {
+export default function AuthLayout({ children }) {
   return (
     <HeaderStyle>
       <StyledLogo component={RouterLink} variant="h5" to="/">
         E-Cure
       </StyledLogo>
 
-      <MHidden width="Down" breakpoint="sm">
+      <MHidden width="smDown">
         <Typography
           variant="body2"
           sx={{

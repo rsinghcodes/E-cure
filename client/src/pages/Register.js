@@ -1,29 +1,29 @@
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink } from 'react-router-dom';
 // material
-import { styled } from "@mui/material/styles";
-import { Box, Link, Container, Typography } from "@mui/material";
+import { styled } from '@mui/material/styles';
+import { Box, Link, Container, Typography } from '@mui/material';
 // layouts
-import AuthLayout from "../layouts/AuthLayout";
+import AuthLayout from '../layouts/AuthLayout';
 // components
-import Page from "../components/Page";
-import { MHidden } from "../components/@material-extend";
-import { RegisterForm } from "../components/authentication/register";
+import Page from '../components/Page';
+import { MHidden } from '../components/@material-extend';
+import { RegisterForm } from '../components/authentication/register';
 
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Page)(({ theme }) => ({
-  [theme.breakpoints.up("md")]: {
-    display: "flex",
+  [theme.breakpoints.up('md')]: {
+    display: 'flex',
   },
 }));
 
-const ContentStyle = styled("div")(({ theme }) => ({
+const ContentStyle = styled('div')(({ theme }) => ({
   maxWidth: 480,
-  margin: "auto",
-  display: "flex",
-  minHeight: "100vh",
-  flexDirection: "column",
-  justifyContent: "center",
+  margin: 'auto',
+  display: 'flex',
+  minHeight: '100vh',
+  flexDirection: 'column',
+  justifyContent: 'center',
   padding: theme.spacing(12, 0),
 }));
 
@@ -50,15 +50,15 @@ export default function Register() {
             <Typography variant="h4" gutterBottom>
               Register for appointments.
             </Typography>
-            <Typography sx={{ color: "text.secondary" }}>
+            <Typography sx={{ color: 'text.secondary' }}>
               Book your appointment easily.
             </Typography>
           </Box>
 
           <RegisterForm />
 
-          <MHidden width="Up" breakpoint="sm">
-            <Typography variant="subtitle2" sx={{ mt: 3, textAlign: "center" }}>
+          <MHidden width="smUp">
+            <Typography variant="subtitle2" sx={{ mt: 3, textAlign: 'center' }}>
               Already have an account?&nbsp;
               <Link to="/login" component={RouterLink}>
                 Login
