@@ -15,12 +15,14 @@ import {
   MenuItem,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import { useDispatch } from 'react-redux';
 
-import { registerPatient } from '../../../redux/actions/authActions';
+import { registerPatient } from '../../../redux/reducers/authReducer';
 // ----------------------------------------------------------------------
 
 export default function RegisterForm() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
 
   const RegisterSchema = Yup.object().shape({
@@ -41,16 +43,17 @@ export default function RegisterForm() {
 
   const formik = useFormik({
     initialValues: {
-      fullName: '',
+      fullname: '',
       email: '',
       password: '',
       phone: '',
       age: '',
       gender: '',
+      reg_num: '',
     },
     validationSchema: RegisterSchema,
     onSubmit: () => {
-      registerPatient(values, navigate('/login', { replace: true }));
+      dispatch(registerPatient(values, navigate('/login', { replace: true })));
     },
   });
 
@@ -61,13 +64,21 @@ export default function RegisterForm() {
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
+          <TextField
+            fullWidth
+            autoComplete="fullname"
+            label="Full name"
+            {...getFieldProps('fullname')}
+            error={Boolean(touched.fullname && errors.fullname)}
+            helperText={touched.fullname && errors.fullname}
+          />
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
             <TextField
               fullWidth
-              label="Full name"
-              {...getFieldProps('fullName')}
-              error={Boolean(touched.fullName && errors.fullName)}
-              helperText={touched.fullName && errors.fullName}
+              label="Registration Num"
+              {...getFieldProps('reg_num')}
+              error={Boolean(touched.reg_num && errors.reg_num)}
+              helperText={touched.reg_num && errors.reg_num}
             />
 
             <TextField

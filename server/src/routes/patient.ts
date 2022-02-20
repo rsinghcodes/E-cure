@@ -1,13 +1,16 @@
-import { NextFunction, Request, Response, Router } from "express";
+import { NextFunction, Request, Response, Router } from 'express';
 
-import token from "../middleware/token";
-import Patient from "../models/Patient/Patient.model";
-import { ValidatePatientRegisterInput } from "../validation/validators";
+import authenticatedMiddleware from '../middleware/authenticated';
+
+import token from '../middleware/token';
+import Appointment from '../models/Appointment/Appointment.model';
+import Patient from '../models/Patient/Patient.model';
+import { ValidatePatientRegisterInput } from '../validation/validators';
 
 const router = Router();
 
 router.post(
-  "/register",
+  '/register',
   async (
     req: Request,
     res: Response,
@@ -22,7 +25,7 @@ router.post(
       const patient = await Patient.findOne({ email: req.body.email });
 
       if (patient) {
-        return res.status(400).json({ email: "Email already exists" });
+        return res.status(400).json({ email: 'Email already exists' });
       }
 
       const { fullname, email, password, phone, age, gender, reg_num } =
@@ -48,7 +51,7 @@ router.post(
 );
 
 router.post(
-  "/login",
+  '/login',
   async (
     req: Request,
     res: Response,
@@ -62,7 +65,7 @@ router.post(
       if (!user) {
         return res
           .status(400)
-          .json({ email: "Unable to find user with that email address" });
+          .json({ email: 'Unable to find user with that email address' });
       }
 
       if (await user.isValidPassword(password)) {
@@ -70,11 +73,26 @@ router.post(
 
         res.status(200).json({ accessToken });
       } else {
-        res.status(400).json({ password: "Wrong credentials given" });
+        res.status(400).json({ password: 'Wrong credentials given' });
       }
     } catch (error: any) {
       next(new Error(error));
     }
+  }
+);
+
+router.get(
+  '/getAllAppointment',
+  authenticatedMiddleware,
+  (req: Request, res: Response, next: NextFunction) => {
+    let patientId = req.user.id;
+    Appointment.find({ patient_id: patientId })
+      .then((data) => {
+        return res.json({ appointment: data });
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   }
 );
 
