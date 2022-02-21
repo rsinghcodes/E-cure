@@ -14,11 +14,15 @@ import {
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { useDispatch } from 'react-redux';
+
+import { loginPatient } from '../../../redux/reducers/authReducer';
 
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
@@ -36,7 +40,7 @@ export default function LoginForm() {
     },
     validationSchema: LoginSchema,
     onSubmit: (e) => {
-      navigate('/dashboard', { replace: true });
+      dispatch(loginPatient(values, navigate('/dashboard', { replace: true })));
     },
   });
 
