@@ -5,18 +5,19 @@ import DoctorTypes from '../models/Doctor/Doctor.interface';
 import PatientTypes from '../models/Patient/Patient.interface';
 import AdminTypes from '../models/Admin/Admin.interface';
 
-export const validateLoginInput = (email: string, password: string) => {
+export const validateLoginInput = (
+  data: DoctorTypes | PatientTypes | AdminTypes
+) => {
   let errors = <DoctorTypes | PatientTypes | AdminTypes>{};
-  email = !isEmpty(email) ? email : '';
-  password = !isEmpty(password) ? password : '';
+  data.email = !isEmpty(data.email) ? data.email : '';
+  data.password = !isEmpty(data.password) ? data.password : '';
 
-  if (Validator.isEmpty(email)) {
+  if (Validator.isEmpty(data.email)) {
     errors.email = 'Email field is required';
-  } else if (!Validator.isEmail(email)) {
+  } else if (!Validator.isEmail(data.email)) {
     errors.email = 'Email is invalid';
   }
-
-  if (Validator.isEmpty(password)) {
+  if (Validator.isEmpty(data.password)) {
     errors.password = 'Password field is required';
   }
   return {
@@ -33,7 +34,7 @@ export const ValidateDoctorRegisterInput = (data: DoctorTypes) => {
   data.confirmPassword = !isEmpty(data.confirmPassword)
     ? data.confirmPassword
     : '';
-  // data.reg_num = !isEmpty(data.reg_num) ? data.reg_num : "";
+  data.reg_num = !isEmpty(data.reg_num) ? data.reg_num : '';
   data.specialization = !isEmpty(data.specialization)
     ? data.specialization
     : '';
@@ -52,9 +53,9 @@ export const ValidateDoctorRegisterInput = (data: DoctorTypes) => {
   if (Validator.isEmpty(data.specialization)) {
     errors.specialization = 'Specialization field is required';
   }
-  // if (Validator.isEmpty(data.reg_num)) {
-  //   errors.reg_num = "Registration Number field is required";
-  // }
+  if (Validator.isEmpty(data.reg_num)) {
+    errors.reg_num = 'Registration Number field is required';
+  }
   if (Validator.isEmpty(data.hospital_name)) {
     errors.hospital_name = 'Hospital Name field is required';
   }
@@ -114,6 +115,13 @@ export const ValidatePatientRegisterInput = (data: PatientTypes) => {
   if (!Validator.isLength(data.password, { min: 6, max: 20 })) {
     errors.password = 'Password must be at least 6 characters';
   }
+  if (Validator.isEmpty(data.age)) {
+    errors.age = 'Age field is required';
+  }
+  if (Validator.isEmpty(data.gender)) {
+    errors.gender = 'Gender field is required';
+  }
+
   return {
     errors,
     isValid: isEmpty(errors),

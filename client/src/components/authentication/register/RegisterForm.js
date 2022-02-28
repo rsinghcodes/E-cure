@@ -1,11 +1,11 @@
+import { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import 'yup-phone';
-import { useState } from 'react';
+import uniqueRandom from 'unique-random';
 import { Icon } from '@iconify/react';
 import { useFormik, Form, FormikProvider } from 'formik';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
-import { useNavigate } from 'react-router-dom';
 // material
 import {
   Stack,
@@ -15,14 +15,20 @@ import {
   MenuItem,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { registerPatient } from '../../../redux/reducers/authReducer';
+import {
+  registerPatient,
+  userSelector,
+} from '../../../redux/reducers/authReducer';
+import { useNavigate } from 'react-router-dom';
 // ----------------------------------------------------------------------
 
 export default function RegisterForm() {
+  const random = uniqueRandom(100000, 1000000);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { isLoading, isAuthenticated, error } = useSelector(userSelector);
   const [showPassword, setShowPassword] = useState(false);
 
   const RegisterSchema = Yup.object().shape({
@@ -49,16 +55,26 @@ export default function RegisterForm() {
       phone: '',
       age: '',
       gender: '',
-      reg_num: '',
+      reg_num: random().toString(),
     },
     validationSchema: RegisterSchema,
     onSubmit: () => {
-      dispatch(registerPatient(values, navigate('/login', { replace: true })));
+      dispatch(registerPatient(values));
     },
   });
 
-  const { errors, touched, values, handleSubmit, isSubmitting, getFieldProps } =
+  const { errors, setErrors, touched, values, handleSubmit, getFieldProps } =
     formik;
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/');
+    }
+    if (error) {
+      setErrors(error);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated, error]);
 
   return (
     <FormikProvider value={formik}>
@@ -149,7 +165,7 @@ export default function RegisterForm() {
             size="large"
             type="submit"
             variant="contained"
-            loading={isSubmitting}
+            loading={isLoading}
             disableElevation
           >
             Register

@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
 // material
@@ -14,15 +14,19 @@ import {
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { loginPatient } from '../../../redux/reducers/authReducer';
+import {
+  loginPatient,
+  userSelector,
+} from '../../../redux/reducers/authReducer';
 
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { isLoading, isAuthenticated, error } = useSelector(userSelector);
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
@@ -40,16 +44,26 @@ export default function LoginForm() {
     },
     validationSchema: LoginSchema,
     onSubmit: (e) => {
-      dispatch(loginPatient(values, navigate('/dashboard', { replace: true })));
+      dispatch(loginPatient(values));
     },
   });
 
-  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } =
+  const { errors, setErrors, touched, values, handleSubmit, getFieldProps } =
     formik;
 
   const handleShowPassword = () => {
     setShowPassword((show) => !show);
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/');
+    }
+    if (error) {
+      setErrors(error);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated, error]);
 
   return (
     <FormikProvider value={formik}>
@@ -111,7 +125,7 @@ export default function LoginForm() {
           size="large"
           type="submit"
           variant="contained"
-          loading={isSubmitting}
+          loading={isLoading}
           disableElevation
         >
           Login

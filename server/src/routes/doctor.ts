@@ -1,18 +1,20 @@
-import { NextFunction, Request, Response, Router } from "express";
+import { Request, Response, Router } from 'express';
 
-import token from "../middleware/token";
-import Doctor from "../models/Doctor/Doctor.model";
+import token from '../middleware/token';
+import Doctor from '../models/Doctor/Doctor.model';
+import { validateLoginInput } from '../validation/validators';
 
 const router = Router();
 
 router.post(
-  "/login",
-  async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<Response | void> => {
+  '/login',
+  async (req: Request, res: Response): Promise<Response | void> => {
     try {
+      const { errors, isValid } = validateLoginInput(req.body);
+      if (!isValid) {
+        return res.status(400).json(errors);
+      }
+
       const { email, password } = req.body;
 
       const user = await Doctor.findOne({ email });
@@ -20,18 +22,19 @@ router.post(
       if (!user) {
         return res
           .status(400)
-          .json({ email: "Unable to find user with that email address" });
+          .json({ email: 'Unable to find user with that email address' });
       }
 
       if (await user.isValidPassword(password)) {
         const accessToken = token.createToken(user);
-
         res.status(200).json({ accessToken });
       } else {
-        res.status(400).json({ password: "Wrong credentials given" });
+        res.status(400).json({ password: 'Password is incorrect' });
       }
     } catch (error: any) {
-      next(new Error(error));
+      return res.status(500).json({
+        error: 'Server Error',
+      });
     }
   }
 );

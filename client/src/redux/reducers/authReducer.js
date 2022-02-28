@@ -1,57 +1,84 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 
 const initialState = {
-  token: null,
-  loading: false,
-  error: '',
+  user: {},
+  isLoading: false,
+  isError: false,
+  isAuthenticated: false,
+  error: {},
 };
 
 export const registerPatient = createAsyncThunk(
   'user/registerPatient',
-  async (userData, navigate) => {
-    const response = await axios.post(
-      'http://localhost:4000/api/patient/register',
-      userData
-    );
-    navigate('/login', { replace: true });
-    return response.data;
+  async (userData, thunkAPI) => {
+    try {
+      const response = await axios.post('/api/patient/register', userData);
+
+      const { accessToken } = response.data;
+      localStorage.setItem('token', accessToken);
+      // Decode token to get user data
+      const decoded = jwt_decode(accessToken);
+      // Return decoded user
+      return decoded;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
   }
 );
 
 export const loginPatient = createAsyncThunk(
   'user/registerPatient',
-  async (userData, navigate) => {
-    const response = await axios.post(
-      'http://localhost:4000/api/patient/login',
-      userData
-    );
-    navigate('/dashboard', { replace: true });
-    return response.data;
+  async (userData, thunkAPI) => {
+    try {
+      const response = await axios.post('/api/patient/login', userData);
+
+      const { accessToken } = response.data;
+      localStorage.setItem('token', accessToken);
+      // Decode token to get user data
+      const decoded = jwt_decode(accessToken);
+      // Return decoded user
+      return decoded;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
   }
 );
 
 export const registerDoctor = createAsyncThunk(
   'user/registerDoctor',
-  async (userData, navigate) => {
-    const response = await axios.post(
-      'http://localhost:4000/api/doctor/register',
-      userData
-    );
-    navigate('/doctor/login', { replace: true });
-    return response.data;
+  async (userData, thunkAPI) => {
+    try {
+      const response = await axios.post('/api/doctor/register', userData);
+
+      const { accessToken } = response.data;
+      localStorage.setItem('token', accessToken);
+      // Decode token to get user data
+      const decoded = jwt_decode(accessToken);
+      // Return decoded user
+      return decoded;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
   }
 );
 
 export const loginDoctor = createAsyncThunk(
   'user/loginDoctor',
-  async (userData, navigate) => {
-    const response = await axios.post(
-      'http://localhost:4000/api/doctor/login',
-      userData
-    );
-    navigate('/dashboard', { replace: true });
-    return response.data;
+  async (userData, thunkAPI) => {
+    try {
+      const response = await axios.post('/api/doctor/login', userData);
+
+      const { accessToken } = response.data;
+      localStorage.setItem('token', accessToken);
+      // Decode token to get user data
+      const decoded = jwt_decode(accessToken);
+      // Return decoded user
+      return decoded;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
   }
 );
 
@@ -59,7 +86,7 @@ const authReducer = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    logout: (state, action) => {
+    logout: (state) => {
       state.token = null;
       localStorage.removeItem('jwtToken');
     },
@@ -67,45 +94,58 @@ const authReducer = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(registerPatient.pending, (state) => {
-        state.loading = true;
+        state.isLoading = true;
       })
       .addCase(registerPatient.fulfilled, (state, action) => {
-        state.loading = false;
-        state.token = action.payload;
-        localStorage.setItem('jwtToken', action.payload);
+        state.isLoading = false;
+        state.user = action.payload;
+      })
+      .addCase(registerPatient.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
       });
 
     builder
       .addCase(loginPatient.pending, (state) => {
-        state.loading = true;
+        state.isLoading = true;
       })
       .addCase(loginPatient.fulfilled, (state, action) => {
-        state.loading = false;
-        state.token = action.payload;
-        localStorage.setItem('jwtToken', action.payload);
+        state.isLoading = false;
+        state.user = action.payload;
+        state.isAuthenticated = true;
       });
 
     builder
       .addCase(registerDoctor.pending, (state) => {
-        state.loading = true;
+        state.isLoading = true;
       })
       .addCase(registerDoctor.fulfilled, (state, action) => {
-        state.loading = false;
-        state.token = action.payload;
-        localStorage.setItem('jwtToken', action.payload);
+        state.isLoading = false;
+        state.user = action.payload;
+        state.isAuthenticated = true;
+      })
+      .addCase(registerDoctor.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
       });
 
     builder
       .addCase(loginDoctor.pending, (state) => {
-        state.loading = true;
+        state.isLoading = true;
       })
       .addCase(loginDoctor.fulfilled, (state, action) => {
-        state.loading = false;
-        state.token = action.payload;
-        localStorage.setItem('jwtToken', action.payload);
+        state.isLoading = false;
+        state.user = action.payload;
+        state.isAuthenticated = true;
+      })
+      .addCase(loginDoctor.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
       });
   },
 });
 
 export const { logout } = authReducer.actions;
+export const userSelector = (state) => state.auth;
+
 export default authReducer.reducer;
