@@ -28,7 +28,7 @@
     "express": "^4.17.2",
     "is-empty": "^1.2.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.1.1",
+    "mongoose": "^6.4.6",
     "morgan": "^1.10.0",
     "random-int": "^3.0.0",
     "validator": "^13.7.0"
